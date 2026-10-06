@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="sgc_executive_dashboard.AppUniverse">
+        <div class="o_sgc_universe">
+            <div class="o_sgc_universe_head">
+                <div>
+                    <h5 class="o_sgc_section_title">Application Universe</h5>
+                    <span class="o_sgc_chart_sub">
+                        <t t-esc="props.universe.installed_count"/> live ·
+                        <t t-esc="props.universe.dormant_count"/> dormant ·
+                        <t t-esc="props.universe.coverage"/>% platform coverage
+                    </span>
+                </div>
+                <div class="o_sgc_universe_tools">
+                    <div class="o_sgc_segment">
+                        <button class="o_sgc_seg_btn"
+                                t-att-class="{ active: state.tab === 'installed' }"
+                                t-on-click="() => state.tab = 'installed'">Live</button>
+                        <button class="o_sgc_seg_btn"
+                                t-att-class="{ active: state.tab === 'dormant' }"
+                                t-on-click="() => state.tab = 'dormant'">Dormant</button>
+                    </div>
+                    <input type="search" class="o_sgc_search" placeholder="Filter applications…"
+                           t-model="state.query"/>
+                </div>
+            </div>
+
+            <div class="o_sgc_coverage">
+                <div class="o_sgc_coverage_bar" t-attf-style="width: {{props.universe.coverage}}%;"/>
+            </div>
+
+            <div class="o_sgc_app_grid">
+                <div t-foreach="list" t-as="app" t-key="app.id"
+                     class="o_sgc_app_tile"
+                     t-att-class="{ o_sgc_dormant: state.tab === 'dormant' }">
+                    <img class="o_sgc_app_icon" t-att-src="app.icon_url" t-att-alt="app.label"
+                         loading="lazy"/>
+                    <div class="o_sgc_app_body">
+                        <span class="o_sgc_app_name" t-esc="app.label"/>
+                        <span class="o_sgc_app_sub"
+                              t-esc="app.pitch or app.summary"/>
+                    </div>
+                    <div class="o_sgc_app_foot">
+                        <span t-if="app.instrumented" class="o_sgc_badge o_sgc_badge_live">
+                            <i class="fa fa-bolt"/> Feeds KPIs
+                        </span>
+                        <button t-if="state.tab === 'dormant'"
+                                class="o_sgc_btn_ghost"
+                                t-att-disabled="state.busy === app.id"
+                                t-on-click="() => this.activate(app)">
+                            <t t-if="state.busy === app.id">Activating…</t>
+                            <t t-else="">Activate</t>
+                        </button>
+                        <button t-else="" class="o_sgc_btn_ghost"
+                                t-on-click="() => this.openApp(app)">Details</button>
+                    </div>
+                </div>
+            </div>
+
+            <div t-if="!list.length" class="o_sgc_empty">
+                <i class="fa fa-search"/>
+                <p>No application matches this filter.</p>
+            </div>
+        </div>
+    </t>
+</templates>

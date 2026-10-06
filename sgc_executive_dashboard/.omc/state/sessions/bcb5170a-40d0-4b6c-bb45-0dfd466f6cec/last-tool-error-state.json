@@ -1,0 +1,7 @@
+{
+  "tool_name": "Bash",
+  "tool_input_preview": "{\"command\":\"export MSYS_NO_PATHCONV=1\\ndocker exec sgc-execdash-dev bash -c \\\"find / -iname 'chrom*' 2>/dev/null | head -5; ls /usr/bin/ 2>/dev/null | grep -i chrom; which playwright\\\"\",\"description\":...",
+  "error": "Exit code 1\n/usr/lib/python3/dist-packages/odoo/addons/pos_restaurant/static/tests/tours/utils/chrome.js\n/usr/lib/python3/dist-packages/odoo/addons/l10n_fr_pos_cert/static/src/js/Chrome.js\n/usr/lib/python3/dist-packages/odoo/addons/project/static/src/img/chrome_store.png\n/usr/lib/python3/dist-packages/odoo/addons/pos_hr/static/src/app/Chrome.js\n/usr/lib/python3/dist-packages/odoo/addons/point_of_sale/static/tests/pos/tours/chrome_without_cash_move_permission_tour.js",
+  "timestamp": "2026-07-29T17:43:19.459Z",
+  "retry_count": 1
+}

@@ -1,0 +1,58 @@
+// ============================================================
+//  SGC BRAND TOKENS — backend dashboard palette.
+//  Locked palette (user-directed): ivory/cream ground, dark navy primary,
+//  light-brown/antique-gold accent, premium finish = thin gold borders +
+//  gold hairline dividers throughout. Mirrored here (rather than importing
+//  sgc_design_tokens/static/src/css/01_tokens.css) because that file only
+//  loads into web.assets_frontend and can't reach this backend client
+//  action's web.assets_backend bundle.
+// ============================================================
+:root {
+    --sgc-brand-500:  #0A1B30;   // dark navy blue — primary brand accent
+    --sgc-brand-600:  #061220;   // deeper navy for hover/pressed states
+    --sgc-brand-050:  #E8EBEF;
+
+    --sgc-gold-500:   #B8935E;   // light-brown / antique gold — secondary accent, badges
+    --sgc-gold-600:   #9C7A47;   // deeper gold for hover/pressed states
+
+    --sgc-teal-500:   #0E7C86;
+    --sgc-amber-500:  #B8935E;   // reuses brand gold as the "amber" functional token
+    --sgc-violet-500: #6B4FA0;
+    --sgc-rose-500:   #B23A48;
+    --sgc-slate-500:  #64748B;
+
+    --sgc-ink-900:    #241F16;
+    --sgc-ink-700:    #4A4133;
+    --sgc-ink-500:    #6E6353;
+    --sgc-ink-300:    #ABA090;
+
+    --sgc-surface:    #FFFFFF;
+    --sgc-canvas:     #FAF7EF;   // ivory / cream white
+    --sgc-border:     #E9E1D1;
+
+    // Premium finish: a thin gold border/hairline treatment layered over the
+    // neutral --sgc-border, used on cards, the hero band and section
+    // dividers rather than the plain neutral border everywhere.
+    --sgc-gold-border:   rgba(184, 147, 94, .38);
+    --sgc-gold-hairline: rgba(184, 147, 94, .55);
+
+    --sgc-radius-lg:  18px;
+    --sgc-radius-md:  12px;
+    --sgc-shadow-sm:  0 1px 2px rgba(10, 27, 48, .06);
+    --sgc-shadow-md:  0 8px 24px -6px rgba(10, 27, 48, .14);
+    --sgc-shadow-lg:  0 20px 48px -12px rgba(10, 27, 48, .20);
+
+    --sgc-font-display: "Fraunces", Georgia, serif;
+    --sgc-font: "Inter", -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+.o_sgc_dark, .o_web_client.o_dark_mode .o_sgc_dashboard {
+    --sgc-surface: #101E30;
+    --sgc-canvas:  #081321;
+    --sgc-border:  #223349;
+    --sgc-gold-border:   rgba(184, 147, 94, .32);
+    --sgc-gold-hairline: rgba(200, 165, 110, .5);
+    --sgc-ink-900: #F5F0E4;
+    --sgc-ink-700: #D6CDBA;
+    --sgc-ink-500: #A79C89;
+}

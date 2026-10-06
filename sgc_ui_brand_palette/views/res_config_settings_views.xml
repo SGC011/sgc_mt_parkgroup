@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    SGC UI Brand Palette — Settings panel.
+
+    Inherits `base.res_config_settings_view_form` (verified present in
+    the live Odoo 19 Community image; the same base xmlid extended by
+    Odoo's own `base_setup` module for the General Settings page).
+    Structure (<app>/<block>/<setting>) verified against
+    base_setup/views/res_config_settings_views.xml in the same image.
+-->
+<odoo>
+    <data>
+
+        <record id="res_config_settings_view_form" model="ir.ui.view">
+            <field name="name">res.config.settings.view.form.inherit.sgc.ui.brand.palette</field>
+            <field name="model">res.config.settings</field>
+            <field name="priority" eval="30"/>
+            <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form" position="inside">
+                    <app data-string="Brand &amp; Theme"
+                         string="Brand &amp; Theme"
+                         name="sgc_brand_theme">
+                        <block title="UI Colours" name="sgc_brand_colors_setting_container">
+                            <setting id="sgc_brand_primary_setting"
+                                     string="Primary colour"
+                                     help="Also used for PDF documents (Document Layout). Drives buttons, links, and highlighted elements across the backend UI.">
+                                <field name="sgc_brand_primary_color" widget="color"/>
+                            </setting>
+                            <setting id="sgc_brand_secondary_setting"
+                                     string="Secondary colour"
+                                     help="Also used for PDF documents (Document Layout).">
+                                <field name="sgc_brand_secondary_color" widget="color"/>
+                            </setting>
+                            <setting id="sgc_brand_link_setting"
+                                     string="Link colour override"
+                                     help="Optional — leave blank to use the Primary colour for links too.">
+                                <field name="sgc_brand_link_color" widget="color"/>
+                            </setting>
+                            <setting id="sgc_brand_navbar_bg_setting"
+                                     string="Navbar background"
+                                     help="Top navbar background colour.">
+                                <field name="sgc_brand_navbar_bg_color" widget="color"/>
+                            </setting>
+                            <setting id="sgc_brand_navbar_text_setting"
+                                     string="Navbar text"
+                                     help="Top navbar icon/text colour.">
+                                <field name="sgc_brand_navbar_text_color" widget="color"/>
+                            </setting>
+                            <setting id="sgc_brand_reset_setting"
+                                     string="Reset"
+                                     help="Restore the navbar colours to this module's starting defaults. Does not affect Primary/Secondary (use the Document Layout reset for those).">
+                                <button name="action_sgc_reset_brand_defaults"
+                                        type="object"
+                                        string="Reset navbar colours"
+                                        class="btn-link"
+                                        icon="fa-repeat"/>
+                            </setting>
+                        </block>
+                    </app>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

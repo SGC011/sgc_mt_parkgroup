@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- (c) SGC TECH AI (https://sgctech.ai) -->
+<odoo noupdate="1">
+    <record id="preset_board_pack" model="sgc.ai.preset">
+        <field name="name">Board Pack Summary</field>
+        <field name="code">board_pack</field>
+        <field name="category">brief</field>
+        <field name="mode">narrative</field>
+        <field name="intent">brief</field>
+        <field name="icon">fa-briefcase</field>
+        <field name="accent">violet</field>
+        <field name="sequence">10</field>
+        <field name="description">Narrative summary of every live KPI for the selected period</field>
+        <field name="prompt_template">Write a board-level summary for {company}
+covering {date_from} to {date_to}. Lead with the single most important
+movement, then note one emerging risk.</field>
+    </record>
+
+    <record id="preset_cash_risk" model="sgc.ai.preset">
+        <field name="name">Cash &amp; Collection Risk</field>
+        <field name="code">cash_risk</field>
+        <field name="category">risk</field>
+        <field name="mode">narrative</field>
+        <field name="intent">metric</field>
+        <field name="icon">fa-exclamation-triangle</field>
+        <field name="accent">rose</field>
+        <field name="sequence">20</field>
+        <!-- Verified real KPI keys emitted by provider_finance.py. -->
+        <field name="kpi_codes">fin_overdue,fin_ar,fin_margin</field>
+        <field name="prompt_template">Assess collection risk. Name the exposure,
+say whether it is deteriorating, and state the one action to take this week.</field>
+    </record>
+
+    <record id="preset_anomaly_scan" model="sgc.ai.preset">
+        <field name="name">What Looks Wrong?</field>
+        <field name="code">anomaly_scan</field>
+        <field name="category">risk</field>
+        <field name="mode">deterministic</field>
+        <field name="intent">anomaly</field>
+        <field name="icon">fa-search</field>
+        <field name="accent">amber</field>
+        <field name="sequence">30</field>
+        <field name="description">Statistical 2-sigma scan across every saved KPI -- instant, no AI call</field>
+    </record>
+
+    <record id="preset_pipeline_health" model="sgc.ai.preset">
+        <field name="name">Pipeline Health</field>
+        <field name="code">pipeline_health</field>
+        <field name="category">growth</field>
+        <field name="mode">narrative</field>
+        <field name="intent">metric</field>
+        <field name="icon">fa-filter</field>
+        <field name="accent">teal</field>
+        <field name="sequence">40</field>
+        <!-- Verified real KPI keys emitted by provider_crm_sales.py: the
+             original draft's `crm_weighted`/`sale_openq` do not exist. -->
+        <field name="kpi_codes">crm_pipeline,crm_winrate,crm_quotations,sale_revenue</field>
+        <field name="prompt_template">Judge whether the pipeline supports the
+current revenue run-rate. Be direct about any shortfall.</field>
+    </record>
+
+    <record id="preset_discovery_health" model="sgc.ai.preset">
+        <field name="name">Discovery &amp; Qualification Health</field>
+        <field name="code">discovery_health</field>
+        <field name="category">growth</field>
+        <field name="mode">narrative</field>
+        <field name="intent">metric</field>
+        <field name="icon">fa-check-square-o</field>
+        <field name="accent">violet</field>
+        <field name="sequence">45</field>
+        <!-- Emitted by sgc_sales_playbook's sgc.provider.pipeline.qualification.
+             Empty/absent if that module isn't installed — kpi_codes referencing
+             a not-installed provider's keys is safe, matching how other
+             presets already reference module-gated KPIs. -->
+        <field name="kpi_codes">gate_pass_rate,gate_pass_rate_ai,gate_pass_rate_human,stalled_deals_count,objection_conversion_rate</field>
+        <field name="prompt_template">Judge whether deals are being properly
+qualified before advancing, using gate pass rate and stalled-deal count. Call
+out any rep or stage where deals are advancing without answers to the 4 gate
+questions.</field>
+    </record>
+
+    <record id="preset_revenue_drivers" model="sgc.ai.preset">
+        <field name="name">Why Did Revenue Move?</field>
+        <field name="code">revenue_drivers</field>
+        <field name="category">growth</field>
+        <field name="mode">generative</field>
+        <field name="intent">explain</field>
+        <field name="icon">fa-question-circle</field>
+        <field name="accent">brand</field>
+        <field name="sequence">50</field>
+        <field name="prompt_template">explain revenue change by customer</field>
+    </record>
+</odoo>

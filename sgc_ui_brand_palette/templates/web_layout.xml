@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    SGC UI Brand Palette — per-company CSS injection.
+
+    Inherits `web.layout` (verified present in the live Odoo 19
+    Community image — odoo/addons/web/views/webclient_templates.xml).
+    Anchored on `//head` with position="inside" (append as last child)
+    rather than a specific sibling, so this survives future reordering
+    inside <head> across Odoo point releases.
+
+    The injected <style> tag loads AFTER the main asset bundle's own
+    <link rel="stylesheet">, so by normal CSS cascade rules (equal
+    specificity, later wins) these :root custom-property overrides take
+    effect without needing any SCSS recompilation — the mechanism that
+    makes this genuinely safe to vary per company/tenant on a single
+    Odoo instance.
+-->
+<odoo>
+
+    <template id="web_layout_brand_css" inherit_id="web.layout">
+        <xpath expr="//head" position="inside">
+            <t t-if="request and request.env.company">
+                <style type="text/css"
+                       t-out="request.env.company._get_sgc_brand_css()"/>
+            </t>
+        </xpath>
+    </template>
+
+</odoo>

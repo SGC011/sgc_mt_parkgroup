@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="sgc_executive_dashboard.AiResult">
+        <div class="o_sgc_ai_result">
+            <div class="o_sgc_ai_result_head">
+                <span class="o_sgc_ai_result_title">SGC AI</span>
+                <button class="o_sgc_btn_icon" t-on-click="() => props.onDismiss()" title="Dismiss">
+                    <i class="fa fa-times"/>
+                </button>
+            </div>
+
+            <div t-if="!props.result.ok" class="o_sgc_ai_result_error">
+                <i class="fa fa-exclamation-circle"/>
+                <span t-esc="props.result.message || 'No answer.'"/>
+            </div>
+
+            <t t-else="">
+                <div t-if="displayValue" class="o_sgc_ai_result_value" t-esc="displayValue"/>
+
+                <!-- Narrative text is untrusted LLM output: t-esc only,
+                     never t-out/t-raw. -->
+                <p t-if="props.result.narrative" class="o_sgc_ai_result_narrative"
+                   t-esc="props.result.narrative"/>
+
+                <div t-if="facts.length" class="o_sgc_ai_facts">
+                    <div t-foreach="facts" t-as="f" t-key="f_index" class="o_sgc_ai_fact_row">
+                        <span class="o_sgc_ai_fact_label" t-esc="f.label"/>
+                        <span class="o_sgc_ai_fact_value" t-esc="factValue(f)"/>
+                    </div>
+                </div>
+
+                <div t-if="findings.length" class="o_sgc_ai_findings">
+                    <div t-foreach="findings" t-as="f" t-key="f.code" class="o_sgc_ai_finding_row">
+                        <span t-esc="f.name"/>
+                        <span t-esc="f.sigma + 'sigma ' + f.direction + ' baseline'"/>
+                    </div>
+                </div>
+
+                <div t-if="drivers.length" class="o_sgc_ai_drivers">
+                    <div t-foreach="drivers" t-as="d" t-key="d.label" class="o_sgc_ai_driver_row">
+                        <span t-esc="d.label"/>
+                        <span t-esc="d.delta"/>
+                    </div>
+                </div>
+
+                <div t-if="comparisonGrid.length" class="o_sgc_ai_compare">
+                    <div t-foreach="comparisonGrid" t-as="c" t-key="c.period" class="o_sgc_ai_compare_cell">
+                        <span t-esc="c.period"/>
+                        <span t-esc="c.value"/>
+                    </div>
+                </div>
+
+                <SgcChartCard t-if="breakdownChart" chart="breakdownChart" currency="props.currency"/>
+
+                <button t-if="props.result.action" class="o_sgc_btn_primary o_sgc_ai_drill"
+                        t-on-click="() => this.onOpenAction()">
+                    <i class="fa fa-external-link"/> Open records
+                </button>
+            </t>
+        </div>
+    </t>
+</templates>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="sgc_executive_dashboard.AiBar">
+        <div class="o_sgc_ai_bar">
+            <div t-if="state.warning" class="o_sgc_ai_warning">
+                <i class="fa fa-exclamation-triangle"/>
+                SGC AI is not configured. Set the system parameter
+                <code t-esc="state.warning"/> in Settings -> Technical -> System Parameters.
+            </div>
+
+            <div class="o_sgc_ai_chips">
+                <t t-foreach="Object.entries(groupedPresets)" t-as="entry" t-key="entry[0]">
+                    <div class="o_sgc_ai_chip_group">
+                        <button t-foreach="entry[1]" t-as="preset" t-key="preset.id"
+                                class="o_sgc_ai_chip"
+                                t-att-class="{ 'o_sgc_ai_chip_busy': state.busy === preset.code }"
+                                t-att-disabled="!!state.busy"
+                                t-att-title="preset.description"
+                                t-on-click="() => this.runPreset(preset)">
+                            <i class="fa" t-att-class="preset.icon"/>
+                            <span t-esc="preset.name"/>
+                            <span t-if="preset.instant" class="o_sgc_ai_badge">Instant</span>
+                            <i t-if="state.busy === preset.code" class="fa fa-spinner fa-spin"/>
+                        </button>
+                    </div>
+                </t>
+            </div>
+
+            <div class="o_sgc_ai_freetext">
+                <select t-if="state.providers.length" t-model="state.provider" class="o_sgc_ai_provider">
+                    <option t-foreach="state.providers" t-as="p" t-key="p.code" t-att-value="p.code" t-esc="p.label"/>
+                </select>
+                <input type="text" class="o_sgc_ai_input"
+                       placeholder="Ask SGC AI a business question..."
+                       t-model="state.prompt"
+                       t-on-keydown="(ev) => ev.key === 'Enter' &amp;&amp; this.runFreeText()"/>
+                <button class="o_sgc_btn_primary"
+                        t-att-disabled="!!state.busy || !state.prompt.trim()"
+                        t-on-click="() => this.runFreeText()">
+                    <i t-if="state.busy === '__freetext__'" class="fa fa-spinner fa-spin"/>
+                    <i t-else="" class="fa fa-paper-plane"/>
+                    Ask
+                </button>
+            </div>
+        </div>
+    </t>
+</templates>

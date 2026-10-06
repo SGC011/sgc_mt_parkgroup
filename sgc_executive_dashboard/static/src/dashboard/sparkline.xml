@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="sgc_executive_dashboard.Sparkline">
+        <svg class="o_sgc_sparkline" t-att-width="props.width" t-att-height="props.height"
+             t-att-viewBox="'0 0 ' + props.width + ' ' + props.height" preserveAspectRatio="none">
+            <t t-set="g" t-value="geometry"/>
+            <t t-if="g.line">
+                <defs>
+                    <linearGradient t-attf-id="sgcSpark-{{props.color.replace('#','')}}" x1="0" x2="0" y1="0" y2="1">
+                        <stop offset="0%" t-att-stop-color="props.color" stop-opacity="0.28"/>
+                        <stop offset="100%" t-att-stop-color="props.color" stop-opacity="0"/>
+                    </linearGradient>
+                </defs>
+                <path t-att-d="g.area" t-attf-fill="url(#sgcSpark-{{props.color.replace('#','')}})"/>
+                <path t-att-d="g.line" fill="none" t-att-stroke="props.color"
+                      stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle t-if="g.last" t-att-cx="g.last[0]" t-att-cy="g.last[1]" r="2.6"
+                        t-att-fill="props.color"/>
+            </t>
+        </svg>
+    </t>
+</templates>

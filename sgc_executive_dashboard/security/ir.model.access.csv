@@ -1,0 +1,14 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_sgc_executive_dashboard_viewer,sgc.executive.dashboard.viewer,model_sgc_executive_dashboard,group_sgc_executive_viewer,1,0,0,0
+access_sgc_kpi_provider_viewer,sgc.kpi.provider.viewer,model_sgc_kpi_provider,group_sgc_executive_viewer,1,0,0,0
+access_sgc_ai_transport_viewer,sgc.ai.transport.viewer,model_sgc_ai_transport,group_sgc_executive_viewer,1,0,0,0
+access_sgc_capability_viewer,sgc.capability.viewer,model_sgc_capability,group_sgc_executive_viewer,1,0,0,0
+access_sgc_provider_dynamic_viewer,sgc.provider.dynamic.viewer,model_sgc_provider_dynamic,group_sgc_executive_viewer,1,0,0,0
+access_sgc_kpi_definition_viewer,sgc.kpi.definition.viewer,model_sgc_kpi_definition,group_sgc_executive_viewer,1,0,0,0
+access_sgc_kpi_definition_officer,sgc.kpi.definition.officer,model_sgc_kpi_definition,group_sgc_executive_officer,1,1,1,1
+access_sgc_ai_assistant_viewer,sgc.ai.assistant.viewer,model_sgc_ai_assistant,group_sgc_executive_viewer,1,0,0,0
+access_sgc_ai_intent_viewer,sgc.ai.intent.viewer,model_sgc_ai_intent,group_sgc_executive_viewer,1,0,0,0
+access_sgc_ai_preset_viewer,sgc.ai.preset.viewer,model_sgc_ai_preset,group_sgc_executive_viewer,1,0,0,0
+access_sgc_ai_preset_officer,sgc.ai.preset.officer,model_sgc_ai_preset,group_sgc_executive_officer,1,1,1,1
+access_sgc_ai_job_viewer,sgc.ai.job.viewer,model_sgc_ai_job,group_sgc_executive_viewer,1,0,1,0
+access_sgc_ai_job_officer,sgc.ai.job.officer,model_sgc_ai_job,group_sgc_executive_officer,1,1,1,1

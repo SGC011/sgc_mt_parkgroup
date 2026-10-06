@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="sgc_executive_dashboard.Dashboard">
+        <Layout className="'o_sgc_dashboard h-100'" display="display">
+            <t t-set-slot="control-panel-create-button"/>
+
+            <t t-set-slot="layout-buttons">
+                <div class="o_sgc_segment">
+                    <button t-foreach="periods" t-as="p" t-key="p.key"
+                            class="o_sgc_seg_btn"
+                            t-att-class="{ active: state.period === p.key }"
+                            t-on-click="() => this.setPeriod(p.key)"
+                            t-esc="p.label"/>
+                </div>
+                <button class="o_sgc_btn_icon ms-2" title="Refresh" t-on-click="() => this.load()">
+                    <i class="fa fa-refresh" t-att-class="{ 'fa-spin': state.loading }"/>
+                </button>
+            </t>
+
+            <div class="o_sgc_scroll">
+                <!-- ================= HERO ================= -->
+                <section class="o_sgc_hero">
+                    <div class="o_sgc_hero_copy">
+                        <span class="o_sgc_eyebrow">SGC TECH AI · Executive Command Center</span>
+                        <h1 class="o_sgc_hero_title">
+                            <t t-esc="greeting"/>, <t t-esc="meta.user"/>
+                        </h1>
+                        <p class="o_sgc_hero_sub">
+                            Consolidated performance for <strong t-esc="meta.company"/>
+                            <t t-if="meta.date_from">
+                                · <t t-esc="meta.date_from"/> → <t t-esc="meta.date_to"/>
+                            </t>
+                        </p>
+                        <div class="o_sgc_hero_tags">
+                            <span class="o_sgc_pill o_sgc_pill_solid">
+                                <i class="fa fa-th-large"/>
+                                <t t-esc="state.data and state.data.universe.installed_count or 0"/> live apps
+                            </span>
+                            <span class="o_sgc_pill">
+                                <i class="fa fa-bolt"/>
+                                <t t-esc="state.data and state.data.sections.length or 0"/> data streams
+                            </span>
+                            <span class="o_sgc_pill">
+                                <i class="fa fa-clock-o"/> Updated <t t-esc="meta.generated_at"/>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="o_sgc_hero_art" aria-hidden="true">
+                        <svg viewBox="0 0 320 200" width="320" height="200">
+                            <defs>
+                                <linearGradient id="sgcHeroA" x1="0" y1="0" x2="1" y2="1">
+                                    <stop offset="0%" stop-color="var(--sgc-brand-500)" stop-opacity=".9"/>
+                                    <stop offset="100%" stop-color="var(--sgc-violet-500)" stop-opacity=".55"/>
+                                </linearGradient>
+                                <linearGradient id="sgcHeroB" x1="0" y1="1" x2="1" y2="0">
+                                    <stop offset="0%" stop-color="var(--sgc-gold-500)" stop-opacity=".9"/>
+                                    <stop offset="100%" stop-color="var(--sgc-gold-500)" stop-opacity=".25"/>
+                                </linearGradient>
+                            </defs>
+                            <circle cx="250" cy="60" r="72" fill="url(#sgcHeroA)" opacity=".18"/>
+                            <rect x="24" y="120" width="34" height="56" rx="8" fill="url(#sgcHeroB)"/>
+                            <rect x="72" y="92" width="34" height="84" rx="8" fill="url(#sgcHeroA)"/>
+                            <rect x="120" y="60" width="34" height="116" rx="8" fill="url(#sgcHeroB)"/>
+                            <rect x="168" y="104" width="34" height="72" rx="8" fill="url(#sgcHeroA)"/>
+                            <path d="M28 96 L89 66 L137 34 L185 74 L245 30"
+                                  fill="none" stroke="var(--sgc-brand-500)" stroke-width="3"
+                                  stroke-linecap="round" stroke-linejoin="round"/>
+                            <circle cx="245" cy="30" r="6" fill="var(--sgc-gold-500)"/>
+                            <circle cx="245" cy="30" r="12" fill="var(--sgc-gold-500)" opacity=".25"/>
+                        </svg>
+                    </div>
+                </section>
+
+                <!-- ================= LOADING ================= -->
+                <div t-if="state.loading" class="o_sgc_grid">
+                    <div t-foreach="[1,2,3,4,5,6]" t-as="i" t-key="i" class="o_sgc_card o_sgc_skeleton">
+                        <div class="o_sgc_sk_line w-50"/>
+                        <div class="o_sgc_sk_line o_sgc_sk_lg w-75"/>
+                        <div class="o_sgc_sk_line w-25"/>
+                    </div>
+                </div>
+
+                <t t-elif="state.data">
+                    <!-- ============= VIEW SWITCH ============= -->
+                    <div class="o_sgc_viewswitch">
+                        <button class="o_sgc_tab" t-att-class="{ active: state.view === 'overview' }"
+                                t-on-click="() => state.view = 'overview'">
+                            <i class="fa fa-dashboard"/> Performance
+                        </button>
+                        <button class="o_sgc_tab" t-att-class="{ active: state.view === 'universe' }"
+                                t-on-click="() => state.view = 'universe'">
+                            <i class="fa fa-th"/> Application Universe
+                        </button>
+                    </div>
+
+                    <t t-if="state.view === 'overview'">
+                        <SgcAiBar period="state.period" onResult="(r) => this.onAiResult(r)"/>
+
+                        <SgcAiResult t-if="state.ai.result" result="state.ai.result"
+                                     currency="currency" onDismiss="() => state.ai.result = null"/>
+
+                        <!-- HERO KPI BAND -->
+                        <section class="o_sgc_grid o_sgc_grid_hero">
+                            <SgcKpiCard t-foreach="headline" t-as="kpi" t-key="kpi.key"
+                                        kpi="kpi" currency="currency"/>
+                        </section>
+
+                        <!-- CHARTS -->
+                        <h5 t-if="charts.length" class="o_sgc_section_title">Trends &amp; Distribution</h5>
+                        <section t-if="charts.length" class="o_sgc_grid">
+                            <SgcChartCard t-foreach="charts" t-as="chart" t-key="chart.key"
+                                          chart="chart" currency="currency"/>
+                        </section>
+
+                        <!-- SECONDARY KPIs -->
+                        <h5 t-if="secondary.length" class="o_sgc_section_title">Operational Signals</h5>
+                        <section t-if="secondary.length" class="o_sgc_grid">
+                            <SgcKpiCard t-foreach="secondary" t-as="kpi" t-key="kpi.key"
+                                        kpi="kpi" currency="currency"/>
+                        </section>
+
+                        <div t-if="!headline.length" class="o_sgc_empty">
+                            <i class="fa fa-plug"/>
+                            <p>No instrumented application is active yet.</p>
+                            <button class="o_sgc_btn_primary" t-on-click="() => state.view = 'universe'">
+                                Explore the Application Universe
+                            </button>
+                        </div>
+                    </t>
+
+                    <t t-else="">
+                        <SgcAppUniverse universe="state.data.universe"
+                                        canInstall="meta.can_install"
+                                        onReload="() => this.load()"/>
+                    </t>
+                </t>
+            </div>
+        </Layout>
+    </t>
+</templates>

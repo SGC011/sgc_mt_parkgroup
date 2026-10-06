@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="sgc_executive_dashboard.KpiCard">
+        <div class="o_sgc_card o_sgc_kpi"
+             t-att-class="{ 'o_sgc_span2': props.kpi.span === 2, 'o_sgc_clickable': !!props.kpi.action }"
+             t-attf-style="--sgc-card-accent: {{accent}};"
+             t-on-click="onDrill">
+            <div class="o_sgc_kpi_head">
+                <span class="o_sgc_glyph"><i class="fa" t-att-class="props.kpi.icon"/></span>
+                <div class="o_sgc_kpi_meta">
+                    <span class="o_sgc_kpi_label" t-esc="props.kpi.label"/>
+                    <span class="o_sgc_kpi_source" t-esc="props.kpi.source"/>
+                </div>
+                <span t-if="deltaLabel" class="o_sgc_delta" t-att-class="deltaClass">
+                    <i class="fa" t-att-class="props.kpi.delta >= 0 ? 'fa-arrow-up' : 'fa-arrow-down'"/>
+                    <t t-esc="deltaLabel"/>
+                </span>
+            </div>
+
+            <div class="o_sgc_kpi_value" t-esc="displayValue"/>
+
+            <div t-if="props.kpi.spark and props.kpi.spark.length > 1" class="o_sgc_kpi_spark">
+                <SgcSparkline data="props.kpi.spark" color="accent" width="220" height="40"/>
+            </div>
+
+            <div t-if="progress !== null" class="o_sgc_progress">
+                <div class="o_sgc_progress_bar" t-attf-style="width: {{progress}}%;"/>
+            </div>
+
+            <div t-if="props.kpi.hint" class="o_sgc_kpi_hint" t-esc="props.kpi.hint"/>
+        </div>
+    </t>
+</templates>

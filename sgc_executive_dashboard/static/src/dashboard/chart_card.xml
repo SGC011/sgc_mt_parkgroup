@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="sgc_executive_dashboard.ChartCard">
+        <div class="o_sgc_card o_sgc_chart"
+             t-att-class="{ 'o_sgc_span2': props.chart.span === 2 }"
+             t-attf-style="--sgc-card-accent: {{ props.chart.accent }};">
+            <div class="o_sgc_chart_head">
+                <div>
+                    <h5 class="o_sgc_chart_title" t-esc="props.chart.title"/>
+                    <span class="o_sgc_chart_sub" t-esc="props.chart.subtitle"/>
+                </div>
+                <span class="o_sgc_pill" t-esc="props.chart.source"/>
+            </div>
+            <div class="o_sgc_chart_body">
+                <canvas t-ref="canvas"/>
+            </div>
+        </div>
+    </t>
+</templates>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- (c) SGC TECH AI (https://sgctech.ai) -->
+<odoo>
+    <record id="cron_ai_jobs" model="ir.cron">
+        <field name="name">SGC AI: process queued jobs</field>
+        <field name="model_id" ref="model_sgc_ai_job"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_process()</field>
+        <field name="interval_number">10</field>
+        <field name="interval_type">minutes</field>
+        <!-- The 10-minute interval is only the safety net: enqueue()
+             calls _trigger() for near-immediate pickup on every new job.
+             Odoo 19's ir.cron has no `numbercall` field (removed from
+             core): it runs indefinitely by default, controlled only by
+             `active`. -->
+        <field name="active" eval="True"/>
+        <field name="user_id" ref="base.user_root"/>
+    </record>
+
+    <record id="cron_ai_jobs_gc" model="ir.cron">
+        <field name="name">SGC AI: garbage-collect old jobs</field>
+        <field name="model_id" ref="model_sgc_ai_job"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_gc()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="active" eval="True"/>
+        <field name="user_id" ref="base.user_root"/>
+    </record>
+</odoo>
