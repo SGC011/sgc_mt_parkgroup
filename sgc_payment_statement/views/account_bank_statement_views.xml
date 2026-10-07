@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="action_sgc_generated_statements" model="ir.actions.act_window">
+        <field name="name">Generated Statements</field>
+        <field name="res_model">account.bank.statement</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('sgc_generated', '=', True)]</field>
+    </record>
+
+    <menuitem id="menu_sgc_generated_statements"
+              name="Generated Statements"
+              action="action_sgc_generated_statements"
+              parent="om_account_reconcile.menu_reconciliation"
+              sequence="50"
+              groups="account.group_account_manager"/>
+
+</odoo>

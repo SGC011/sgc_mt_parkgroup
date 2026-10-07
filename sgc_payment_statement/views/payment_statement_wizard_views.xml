@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="sgc_payment_statement_wizard_form" model="ir.ui.view">
+        <field name="name">sgc.payment.statement.wizard.form</field>
+        <field name="model">sgc.payment.statement.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Statement From Payments">
+                <field name="state" invisible="1"/>
+                <field name="company_id" invisible="1"/>
+                <div class="alert alert-warning" role="alert" invisible="state != 'draft'">
+                    The statements created here are built from your own payments, not from the bank: they always
+                    match, so they cannot reveal a bounced cheque, a missing payment or a bank charge. Use the
+                    statements of the bank wherever you have them, and keep this for migrated history and cash.
+                </div>
+                <group invisible="state != 'draft'">
+                    <group>
+                        <field name="journal_ids" widget="many2many_tags" options="{'no_create': True}"/>
+                        <field name="date_from"/>
+                        <field name="date_to"/>
+                    </group>
+                    <group>
+                        <field name="skip_duplicates"/>
+                        <field name="reconcile"/>
+                    </group>
+                </group>
+                <field name="report" invisible="state == 'draft'"/>
+                <footer>
+                    <button string="Preview" type="object" name="action_preview" class="btn-primary"
+                            invisible="state != 'draft'"/>
+                    <button string="Generate and Reconcile" type="object" name="action_generate" class="btn-primary"
+                            invisible="state != 'preview'"
+                            confirm="Statement lines and journal entries will be created and reconciled. Continue?"/>
+                    <button string="Back" type="object" name="action_back" invisible="state != 'preview'"/>
+                    <button string="Remove Generated" type="object" name="action_remove_generated"
+                            class="btn-secondary" invisible="state != 'draft'"
+                            confirm="The statement lines generated from payments in these journals will be unreconciled and deleted. Continue?"/>
+                    <button string="Close" special="cancel" invisible="state == 'draft'"/>
+                    <button string="Cancel" special="cancel" invisible="state != 'draft'"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_sgc_payment_statement_wizard" model="ir.actions.act_window">
+        <field name="name">Statement From Payments</field>
+        <field name="res_model">sgc.payment.statement.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="menu_sgc_payment_statement"
+              name="Statement From Payments"
+              action="action_sgc_payment_statement_wizard"
+              parent="om_account_reconcile.menu_reconciliation"
+              sequence="40"
+              groups="account.group_account_manager"/>
+
+</odoo>
